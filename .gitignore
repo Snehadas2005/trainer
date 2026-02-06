@@ -38,16 +38,4 @@ hack/data_cache/*.log
 examples/pytorch/*/data
 
 examples/pytorch/audio-classification/genres_original
-
-# Local Kubernetes tools
-kind
-kind.exe
-kind-windows.exe
-kind-windows-amd64.exe
-kubectl.exe
-
-# Generated YAML files
-api/python_api/kubeflow_trainer_api/models/io_k8s_api_core_v1_workload_reference.py
-
-# Windows binaries
-*.exe
+examples/pytorch/audio-classification/output

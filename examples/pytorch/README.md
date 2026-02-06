@@ -18,11 +18,3 @@ To run these examples, install the Kubeflow SDK:
 ```bash
 pip install -U kubeflow
 ```
-
-## Workflows
-
-- **Image Classification (mnist.ipynb):** Demonstrates distributed training on the Fashion MNIST dataset using CNNs.
-- **Question Answering (fine-tune-distilbert.ipynb):** Fine-tuning DistilBERT on the SQuAD dataset with Hugging Face integration.
-- **Speech Recognition (speech-recognition.ipynb):** Spoken word classification using an Audio Transformer on the Speech Commands dataset.
-- **Audio Classification (audio-classification.ipynb):** Music genre classification using the M5 1D CNN architecture on the GTZAN dataset.
-- **Fine-Tune LLM with Data Cache:** Demonstrates fine-tuning BERT with efficient data streaming from a distributed cache using Iceberg tables.
