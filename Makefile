@@ -18,7 +18,7 @@ TRAINER_CHART_DIR := $(PROJECT_DIR)/charts/kubeflow-trainer
 LOCALBIN ?= $(PROJECT_DIR)/bin
 
 # Tool versions
-K8S_VERSION ?= 1.34.0
+K8S_VERSION ?= 1.35.0
 GINKGO_VERSION ?= $(shell go list -m -f '{{.Version}}' github.com/onsi/ginkgo/v2)
 ENVTEST_VERSION ?= release-0.22
 CONTROLLER_GEN_VERSION ?= v0.18.0
@@ -222,7 +222,7 @@ helm-unittest: helm-unittest-plugin ## Run Helm chart unittests.
 
 .PHONY: helm-lint
 helm-lint: ## Run Helm chart lint test.
-	docker run --rm --workdir /workspace --volume "$$(pwd):/workspace" quay.io/helmpack/chart-testing:$(HELM_CHART_TESTING_VERSION) ct lint --target-branch master --validate-maintainers=false
+	docker run --rm --workdir /workspace --user "$(shell id -u):$(shell id -g)" --volume "$$(pwd):/workspace" quay.io/helmpack/chart-testing:$(HELM_CHART_TESTING_VERSION) ct lint --target-branch master --validate-maintainers=false
 
 .PHONY: helm-docs
 helm-docs: helm-docs-plugin ## Generates markdown documentation for helm charts from requirements and values files.

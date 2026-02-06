@@ -17,15 +17,27 @@
 package v1alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/client-go/applyconfigurations/core/v1"
 )
 
 // ContainerOverrideApplyConfiguration represents a declarative configuration of the ContainerOverride type for use
 // with apply.
+//
+// ContainerOverride represents parameters that can be overridden using PodSpecOverrides.
 type ContainerOverrideApplyConfiguration struct {
-	Name         *string                            `json:"name,omitempty"`
-	Env          []v1.EnvVarApplyConfiguration      `json:"env,omitempty"`
+	// name for the container. TrainingRuntime must have this container.
+	Name *string `json:"name,omitempty"`
+	// env is the list of environment variables to set in the container.
+	// These values will be merged with the TrainingRuntime's environments.
+	// These values can't be set for container with the name: `node`, `dataset-initializer`, or
+	// `model-initializer`. For those containers the envs can only be set via Trainer or Initializer APIs.
+	Env []v1.EnvVarApplyConfiguration `json:"env,omitempty"`
+	// volumeMounts are the volumes to mount into the container's filesystem.
 	VolumeMounts []v1.VolumeMountApplyConfiguration `json:"volumeMounts,omitempty"`
+	// securityContext overrides the container's security context.
+	// More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+	SecurityContext *corev1.SecurityContext `json:"securityContext,omitempty"`
 }
 
 // ContainerOverrideApplyConfiguration constructs a declarative configuration of the ContainerOverride type for use with
@@ -65,5 +77,13 @@ func (b *ContainerOverrideApplyConfiguration) WithVolumeMounts(values ...*v1.Vol
 		}
 		b.VolumeMounts = append(b.VolumeMounts, *values[i])
 	}
+	return b
+}
+
+// WithSecurityContext sets the SecurityContext field in the declarative configuration to the given value
+// and returns the receiver, so that objects can be built by chaining "With" function invocations.
+// If called multiple times, the SecurityContext field is set to the value of the last call.
+func (b *ContainerOverrideApplyConfiguration) WithSecurityContext(value corev1.SecurityContext) *ContainerOverrideApplyConfiguration {
+	b.SecurityContext = &value
 	return b
 }
